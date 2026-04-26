@@ -754,6 +754,171 @@
           </div>
         </div>
       </div>
+      <!-- System Logs / Mini Panel -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          class="lg:col-span-2 bg-surface-container border border-white/5 rounded-xl p-4"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h3
+              class="font-headline-md text-body-base text-on-surface flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >analytics</span
+              >
+              Network Throughput (24h)
+            </h3>
+            <button
+              class="text-primary text-[12px] font-bold uppercase tracking-wider"
+            >
+              Expand Details
+            </button>
+          </div>
+          <div class="h-48 flex items-end justify-between gap-1 px-2">
+            <!-- Fake Chart Bars -->
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[55%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[30%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[45%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[70%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[85%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[60%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[50%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[30%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[90%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[75%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[65%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[80%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[35%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[50%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[60%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[70%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[55%] hover:bg-primary/40 transition-all"
+            ></div>
+          </div>
+          <div
+            class="flex justify-between text-[10px] text-on-surface-variant mt-2 font-data-mono"
+          >
+            <span>00:00</span>
+            <span>06:00</span>
+            <span>12:00</span>
+            <span>18:00</span>
+            <span>23:59</span>
+          </div>
+        </div>
+        <div class="bg-surface-container border border-white/5 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3
+              class="font-headline-md text-body-base text-on-surface flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-tertiary"
+                >history</span
+              >
+              Recent Activity
+            </h3>
+          </div>
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <div
+                class="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0"
+              ></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Node Provisioned
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  edge-us-east-44 was successfully added to cluster.
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">2 mins ago</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mt-1 w-2 h-2 rounded-full bg-error shrink-0"></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Critical Latency Alert
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  edge-us-east-01 exceeded threshold (480ms).
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">14 mins ago</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mt-1 w-2 h-2 rounded-full bg-primary shrink-0"></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Config Updated
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  Global firewall rules refreshed by admin_root.
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">45 mins ago</div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="w-full mt-4 py-2 border border-white/10 rounded-lg text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-variant transition-colors"
+          >
+            View System Logs
+          </button>
+        </div>
+      </div>
     </main>
+    <!-- Map/Infrastructure Background Decorative -->
+    <div
+      class="fixed inset-0 -z-10 opacity-20 pointer-events-none overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-surface-dim to-slate-950"
+      ></div>
+      <img
+        alt="Network Overlay"
+        class="w-full h-full object-cover mix-blend-overlay opacity-30 grayscale"
+        data-alt="abstract digital network grid with glowing nodes and data connections in a dark cyberpunk aesthetic"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0UiODE0pzdJzjKkqxZxm4e30jrsblLt_YBJgdl_VjewQTKHr6acLPJPcn-i4aFGEDAX-EBka4NEBG9nHbAlJOkBytyegqApOEurksLo7606RTvmGuoB5jgaqRDiw-n8GvnBvYJo82KhG3AkYHxjpn0mPipMYBI3jLww-5wvLK-PTmX1gqfVxyknTTo48y6nBdv5HkjpG_GO3Jt85jypCi2YnSWgSAeofM2ptYZLt7JsY6tIs9JpI1-w-vZWwfIu4mFtGuESMlUPsd"
+      />
+    </div>
   </body>
 </html>
