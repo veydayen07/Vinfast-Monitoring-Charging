@@ -1,0 +1,924 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Live Network Status</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#131b2e",
+              "on-surface": "#d4e4fa",
+              error: "#ffb4ab",
+              "inverse-on-surface": "#233143",
+              "outline-variant": "#424754",
+              "on-error-container": "#ffdad6",
+              "on-error": "#690005",
+              "surface-container-highest": "#273647",
+              "on-secondary-fixed": "#111c2d",
+              "inverse-surface": "#d4e4fa",
+              "tertiary-fixed": "#dae2fd",
+              "inverse-primary": "#005ac2",
+              "secondary-fixed-dim": "#bcc7de",
+              "primary-fixed": "#d8e2ff",
+              "surface-container-low": "#0d1c2d",
+              "on-secondary-container": "#aeb9d0",
+              "on-primary-container": "#00285d",
+              "surface-tint": "#adc6ff",
+              "surface-dim": "#051424",
+              surface: "#051424",
+              "secondary-fixed": "#d8e3fb",
+              "primary-container": "#4d8eff",
+              "on-secondary": "#263143",
+              "on-primary-fixed": "#001a42",
+              "secondary-container": "#3e495d",
+              "on-tertiary": "#283044",
+              "on-tertiary-container": "#22293d",
+              "error-container": "#93000a",
+              "on-surface-variant": "#c2c6d6",
+              "surface-container-lowest": "#010f1f",
+              "surface-bright": "#2c3a4c",
+              "surface-container-high": "#1c2b3c",
+              "on-primary-fixed-variant": "#004395",
+              "tertiary-container": "#8990a8",
+              "on-secondary-fixed-variant": "#3c475a",
+              "primary-fixed-dim": "#adc6ff",
+              "tertiary-fixed-dim": "#bec6e0",
+              primary: "#adc6ff",
+              "on-background": "#d4e4fa",
+              "surface-variant": "#273647",
+              "surface-container": "#122131",
+              "on-primary": "#002e6a",
+              background: "#051424",
+              secondary: "#bcc7de",
+              tertiary: "#bec6e0",
+              "on-tertiary-fixed-variant": "#3f465c",
+              outline: "#8c909f",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              unit: "4px",
+              gutter: "16px",
+              "stack-sm": "8px",
+              "container-padding": "24px",
+              "stack-md": "16px",
+            },
+            fontFamily: {
+              "headline-md": ["Inter"],
+              "display-lg": ["Inter"],
+              "data-mono": ["Inter"],
+              "body-base": ["Inter"],
+              "label-sm": ["Inter"],
+            },
+            fontSize: {
+              "headline-md": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-lg": [
+                "30px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "data-mono": [
+                "13px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-base": [
+                "14px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "label-sm": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.05em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #020617;
+        font-family: "Inter", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #010f1f;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #273647;
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #d80909;
+      }
+    </style>
+  </head>
+  <body class="text-on-surface antialiased">
+    <!-- TopAppBar -->
+    <header
+      class="bg-slate-950 docked full-width top-0 border-b border-white/10 flat no shadows flex justify-between items-center w-full px-6 h-16 z-50 sticky font-inter antialiased tracking-tight"
+    >
+      <div class="flex items-center gap-6">
+        <span class="text-lg font-bold text-slate-100 uppercase tracking-widest"
+          >Live Network Status</span
+        >
+        <nav class="hidden md:flex items-center space-x-1 h-full">
+          <a
+            class="px-4 py-2 text-blue-500 font-semibold border-b-2 border-blue-500 h-16 flex items-center transition-transform duration-75 active:scale-95"
+            href="#"
+            >Monitor</a
+          >
+          <a
+            class="px-4 py-2 text-slate-400 hover:bg-slate-900 hover:text-slate-100 h-16 flex items-center transition-transform duration-75 active:scale-95"
+            href="#"
+            >Analytics</a
+          >
+          <a
+            class="px-4 py-2 text-slate-400 hover:bg-slate-900 hover:text-slate-100 h-16 flex items-center transition-transform duration-75 active:scale-95"
+            href="#"
+            >Incidents</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]"
+            >search</span
+          >
+          <input
+            class="bg-slate-900 border border-white/10 rounded-lg pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 w-64 text-slate-100"
+            placeholder="Search nodes..."
+            type="text"
+          />
+        </div>
+        <div class="flex items-center gap-1">
+          <button
+            class="p-2 text-blue-500 hover:bg-slate-900 rounded-lg transition-transform duration-75 active:scale-95"
+            title="Filter List"
+          >
+            <span class="material-symbols-outlined">filter_list</span>
+          </button>
+          <button
+            class="p-2 text-blue-500 hover:bg-slate-900 rounded-lg transition-transform duration-75 active:scale-95"
+            title="Refresh"
+          >
+            <span class="material-symbols-outlined">refresh</span>
+          </button>
+          <button
+            class="p-2 text-blue-500 hover:bg-slate-900 rounded-lg transition-transform duration-75 active:scale-95"
+            title="More Options"
+          >
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="p-6 max-w-[1600px] mx-auto">
+      <!-- Dashboard Summary Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-surface-container border border-white/5 p-4 rounded-lg">
+          <div class="flex justify-between items-start mb-2">
+            <span
+              class="text-label-sm font-label-sm text-on-surface-variant uppercase"
+              >Total Nodes</span
+            >
+            <span class="material-symbols-outlined text-primary text-[20px]"
+              >hub</span
+            >
+          </div>
+          <div class="text-display-lg font-display-lg">1,248</div>
+          <div class="flex items-center gap-1 text-[11px] text-primary mt-1">
+            <span class="material-symbols-outlined text-[14px]"
+              >arrow_upward</span
+            >
+            <span>12 since last hour</span>
+          </div>
+        </div>
+        <div class="bg-surface-container border border-white/5 p-4 rounded-lg">
+          <div class="flex justify-between items-start mb-2">
+            <span
+              class="text-label-sm font-label-sm text-on-surface-variant uppercase"
+              >Online</span
+            >
+            <span class="material-symbols-outlined text-green-500 text-[20px]"
+              >check_circle</span
+            >
+          </div>
+          <div class="text-display-lg font-display-lg text-green-400">
+            1,242
+          </div>
+          <div class="text-[11px] text-on-surface-variant mt-1">
+            99.5% uptime efficiency
+          </div>
+        </div>
+        <div class="bg-surface-container border border-white/5 p-4 rounded-lg">
+          <div class="flex justify-between items-start mb-2">
+            <span
+              class="text-label-sm font-label-sm text-on-surface-variant uppercase"
+              >Critical Alerts</span
+            >
+            <span class="material-symbols-outlined text-error text-[20px]"
+              >warning</span
+            >
+          </div>
+          <div class="text-display-lg font-display-lg text-error">2</div>
+          <div class="text-[11px] text-error mt-1">
+            Requires immediate attention
+          </div>
+        </div>
+        <div class="bg-surface-container border border-white/5 p-4 rounded-lg">
+          <div class="flex justify-between items-start mb-2">
+            <span
+              class="text-label-sm font-label-sm text-on-surface-variant uppercase"
+              >Avg Latency</span
+            >
+            <span class="material-symbols-outlined text-tertiary text-[20px]"
+              >speed</span
+            >
+          </div>
+          <div class="text-display-lg font-display-lg">14.2ms</div>
+          <div class="text-[11px] text-on-surface-variant mt-1">
+            -2.1ms global average
+          </div>
+        </div>
+      </div>
+      <!-- Filter Bar & Actions -->
+      <div
+        class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4"
+      >
+        <div class="flex flex-wrap items-center gap-2">
+          <div
+            class="flex items-center bg-surface-container-high border border-white/10 rounded-lg p-1"
+          >
+            <button
+              class="px-3 py-1.5 text-label-sm font-label-sm bg-primary text-on-primary rounded-md shadow-sm"
+            >
+              All Nodes
+            </button>
+            <button
+              class="px-3 py-1.5 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface"
+            >
+              Critical
+            </button>
+            <button
+              class="px-3 py-1.5 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface"
+            >
+              Warnings
+            </button>
+            <button
+              class="px-3 py-1.5 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface"
+            >
+              Offline
+            </button>
+          </div>
+          <div class="h-6 w-px bg-white/10 mx-2"></div>
+          <div class="flex items-center gap-2">
+            <span class="text-[12px] text-on-surface-variant">Regions:</span>
+            <select
+              class="bg-transparent border border-white/10 text-label-sm font-label-sm rounded-lg px-2 py-1 text-on-surface focus:ring-0 focus:border-primary"
+            >
+              <option>All Regions</option>
+              <option>US-East</option>
+              <option>EU-West</option>
+              <option>AP-South</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            class="flex items-center gap-2 px-4 py-2 border border-outline-variant text-label-sm font-label-sm rounded-lg hover:bg-surface-variant transition-colors"
+          >
+            <span class="material-symbols-outlined text-[18px]">download</span>
+            Export CSV
+          </button>
+          <button
+            class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-container text-label-sm font-label-sm rounded-lg hover:brightness-110 transition-colors"
+          >
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Provision Node
+          </button>
+        </div>
+      </div>
+      <!-- High-Density Data Table -->
+      <div
+        class="bg-surface-container border border-white/5 rounded-xl overflow-hidden shadow-2xl"
+      >
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse">
+            <thead
+              class="bg-surface-container-highest/50 border-b border-white/10"
+            >
+              <tr>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider"
+                >
+                  Node Name
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider"
+                >
+                  IP Address
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider"
+                >
+                  Status
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider"
+                >
+                  Uptime
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider text-right"
+                >
+                  Latency
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider text-right"
+                >
+                  Traffic
+                </th>
+                <th
+                  class="px-6 py-4 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider text-center"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <!-- Table Row 1 (Critical) -->
+              <tr class="hover:bg-error-container/10 transition-colors group">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-2 h-2 rounded-full bg-error animate-pulse shadow-[0_0_8px_rgba(255,180,171,0.6)]"
+                    ></div>
+                    <div>
+                      <div
+                        class="text-body-base font-headline-md text-on-surface"
+                      >
+                        edge-us-east-01
+                      </div>
+                      <div class="text-[11px] text-on-surface-variant">
+                        Virginia Datacenter B12
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  192.168.10.45
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-error-container text-on-error-container"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >error</span
+                    >
+                    Critical
+                  </span>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  0d 0h 14m
+                </td>
+                <td
+                  class="px-6 py-4 text-right font-data-mono text-data-mono text-error"
+                >
+                  482ms
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex justify-end gap-1 h-4 items-end">
+                    <div class="w-1 bg-error-container h-1"></div>
+                    <div class="w-1 bg-error h-3"></div>
+                    <div class="w-1 bg-error h-4"></div>
+                    <div class="w-1 bg-error-container h-2"></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <button
+                    class="text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span class="material-symbols-outlined"
+                      >settings_suggest</span
+                    >
+                  </button>
+                </td>
+              </tr>
+              <!-- Table Row 2 (Healthy) -->
+              <tr
+                class="hover:bg-surface-container-highest transition-colors group"
+              >
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    <div>
+                      <div
+                        class="text-body-base font-headline-md text-on-surface"
+                      >
+                        core-eu-west-04
+                      </div>
+                      <div class="text-[11px] text-on-surface-variant">
+                        Frankfurt Hub 01
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  10.0.4.122
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-900/30 text-green-400 border border-green-500/20"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >check_circle</span
+                    >
+                    Healthy
+                  </span>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  142d 4h 12m
+                </td>
+                <td
+                  class="px-6 py-4 text-right font-data-mono text-data-mono text-green-400"
+                >
+                  12ms
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex justify-end gap-1 h-4 items-end">
+                    <div class="w-1 bg-green-900 h-1"></div>
+                    <div class="w-1 bg-green-500 h-2"></div>
+                    <div class="w-1 bg-green-900 h-1.5"></div>
+                    <div class="w-1 bg-green-500 h-2"></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <button
+                    class="text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span class="material-symbols-outlined"
+                      >settings_suggest</span
+                    >
+                  </button>
+                </td>
+              </tr>
+              <!-- Table Row 3 (Healthy) -->
+              <tr
+                class="hover:bg-surface-container-highest transition-colors group"
+              >
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    <div>
+                      <div
+                        class="text-body-base font-headline-md text-on-surface"
+                      >
+                        dist-ap-south-01
+                      </div>
+                      <div class="text-[11px] text-on-surface-variant">
+                        Mumbai Cluster 02
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  172.16.8.19
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-900/30 text-green-400 border border-green-500/20"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >check_circle</span
+                    >
+                    Healthy
+                  </span>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  89d 18h 55m
+                </td>
+                <td
+                  class="px-6 py-4 text-right font-data-mono text-data-mono text-green-400"
+                >
+                  34ms
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex justify-end gap-1 h-4 items-end">
+                    <div class="w-1 bg-green-500 h-2.5"></div>
+                    <div class="w-1 bg-green-500 h-3"></div>
+                    <div class="w-1 bg-green-500 h-3.5"></div>
+                    <div class="w-1 bg-green-500 h-4"></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <button
+                    class="text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span class="material-symbols-outlined"
+                      >settings_suggest</span
+                    >
+                  </button>
+                </td>
+              </tr>
+              <!-- Table Row 4 (Warning) -->
+              <tr
+                class="hover:bg-surface-container-highest transition-colors group"
+              >
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                    <div>
+                      <div
+                        class="text-body-base font-headline-md text-on-surface"
+                      >
+                        gw-eu-central-02
+                      </div>
+                      <div class="text-[11px] text-on-surface-variant">
+                        London Gateway A
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  10.12.0.1
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-yellow-900/30 text-yellow-500 border border-yellow-500/20"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >warning</span
+                    >
+                    High Load
+                  </span>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  12d 2h 44m
+                </td>
+                <td
+                  class="px-6 py-4 text-right font-data-mono text-data-mono text-yellow-500"
+                >
+                  105ms
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex justify-end gap-1 h-4 items-end">
+                    <div class="w-1 bg-yellow-500 h-4"></div>
+                    <div class="w-1 bg-yellow-900 h-2"></div>
+                    <div class="w-1 bg-yellow-500 h-4"></div>
+                    <div class="w-1 bg-yellow-900 h-3"></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <button
+                    class="text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span class="material-symbols-outlined"
+                      >settings_suggest</span
+                    >
+                  </button>
+                </td>
+              </tr>
+              <!-- Table Row 5 (Offline) -->
+              <tr
+                class="hover:bg-surface-container-highest transition-colors group opacity-75"
+              >
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-slate-600"></div>
+                    <div>
+                      <div
+                        class="text-body-base font-headline-md text-slate-400"
+                      >
+                        bkp-us-west-09
+                      </div>
+                      <div class="text-[11px] text-on-surface-variant">
+                        Seattle Backup Pod
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  192.168.90.11
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-400"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >power_off</span
+                    >
+                    Offline
+                  </span>
+                </td>
+                <td
+                  class="px-6 py-4 font-data-mono text-data-mono text-on-surface-variant"
+                >
+                  --
+                </td>
+                <td
+                  class="px-6 py-4 text-right font-data-mono text-data-mono text-slate-500"
+                >
+                  Timeout
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex justify-end gap-1 h-4 items-end">
+                    <div class="w-1 bg-slate-800 h-1"></div>
+                    <div class="w-1 bg-slate-800 h-1"></div>
+                    <div class="w-1 bg-slate-800 h-1"></div>
+                    <div class="w-1 bg-slate-800 h-1"></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <button
+                    class="text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span class="material-symbols-outlined"
+                      >settings_suggest</span
+                    >
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Table Footer/Pagination -->
+        <div
+          class="px-6 py-4 bg-surface-container-low border-t border-white/5 flex items-center justify-between"
+        >
+          <div class="text-[12px] text-on-surface-variant">
+            Showing <span class="text-on-surface font-semibold">1-5</span> of
+            <span class="text-on-surface font-semibold">1,248</span> nodes
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              class="p-1 text-on-surface-variant hover:text-on-surface disabled:opacity-30"
+              disabled=""
+            >
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <div class="flex gap-1">
+              <button
+                class="w-8 h-8 rounded text-[12px] font-bold bg-primary text-on-primary"
+              >
+                1
+              </button>
+              <button
+                class="w-8 h-8 rounded text-[12px] font-bold text-on-surface-variant hover:bg-surface-variant"
+              >
+                2
+              </button>
+              <button
+                class="w-8 h-8 rounded text-[12px] font-bold text-on-surface-variant hover:bg-surface-variant"
+              >
+                3
+              </button>
+              <span class="px-1 text-on-surface-variant">...</span>
+              <button
+                class="w-8 h-8 rounded text-[12px] font-bold text-on-surface-variant hover:bg-surface-variant"
+              >
+                250
+              </button>
+            </div>
+            <button class="p-1 text-on-surface-variant hover:text-on-surface">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- System Logs / Mini Panel -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          class="lg:col-span-2 bg-surface-container border border-white/5 rounded-xl p-4"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h3
+              class="font-headline-md text-body-base text-on-surface flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >analytics</span
+              >
+              Network Throughput (24h)
+            </h3>
+            <button
+              class="text-primary text-[12px] font-bold uppercase tracking-wider"
+            >
+              Expand Details
+            </button>
+          </div>
+          <div class="h-48 flex items-end justify-between gap-1 px-2">
+            <!-- Fake Chart Bars -->
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[55%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[30%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[45%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[70%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[85%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[60%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[50%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[30%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[90%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[75%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[65%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[80%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[35%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[50%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[60%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[70%] hover:bg-primary/40 transition-all"
+            ></div>
+            <div
+              class="flex-1 bg-primary/20 rounded-t h-[55%] hover:bg-primary/40 transition-all"
+            ></div>
+          </div>
+          <div
+            class="flex justify-between text-[10px] text-on-surface-variant mt-2 font-data-mono"
+          >
+            <span>00:00</span>
+            <span>06:00</span>
+            <span>12:00</span>
+            <span>18:00</span>
+            <span>23:59</span>
+          </div>
+        </div>
+        <div class="bg-surface-container border border-white/5 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3
+              class="font-headline-md text-body-base text-on-surface flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-tertiary"
+                >history</span
+              >
+              Recent Activity
+            </h3>
+          </div>
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <div
+                class="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0"
+              ></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Node Provisioned
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  edge-us-east-44 was successfully added to cluster.
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">2 mins ago</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mt-1 w-2 h-2 rounded-full bg-error shrink-0"></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Critical Latency Alert
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  edge-us-east-01 exceeded threshold (480ms).
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">14 mins ago</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mt-1 w-2 h-2 rounded-full bg-primary shrink-0"></div>
+              <div>
+                <div class="text-[12px] font-semibold text-on-surface">
+                  Config Updated
+                </div>
+                <div class="text-[11px] text-on-surface-variant">
+                  Global firewall rules refreshed by admin_root.
+                </div>
+                <div class="text-[10px] text-tertiary mt-1">45 mins ago</div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="w-full mt-4 py-2 border border-white/10 rounded-lg text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-variant transition-colors"
+          >
+            View System Logs
+          </button>
+        </div>
+      </div>
+    </main>
+    <!-- Map/Infrastructure Background Decorative -->
+    <div
+      class="fixed inset-0 -z-10 opacity-20 pointer-events-none overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-surface-dim to-slate-950"
+      ></div>
+      <img
+        alt="Network Overlay"
+        class="w-full h-full object-cover mix-blend-overlay opacity-30 grayscale"
+        data-alt="abstract digital network grid with glowing nodes and data connections in a dark cyberpunk aesthetic"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0UiODE0pzdJzjKkqxZxm4e30jrsblLt_YBJgdl_VjewQTKHr6acLPJPcn-i4aFGEDAX-EBka4NEBG9nHbAlJOkBytyegqApOEurksLo7606RTvmGuoB5jgaqRDiw-n8GvnBvYJo82KhG3AkYHxjpn0mPipMYBI3jLww-5wvLK-PTmX1gqfVxyknTTo48y6nBdv5HkjpG_GO3Jt85jypCi2YnSWgSAeofM2ptYZLt7JsY6tIs9JpI1-w-vZWwfIu4mFtGuESMlUPsd"
+      />
+    </div>
+  </body>
+</html>
