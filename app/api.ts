@@ -1,4 +1,6 @@
-const ROOTAPI = process.env.BASE_API;
+const ROOTAPI = process.env.NEXT_PUBLIC_BASE_API;
+const ROOTURL = process.env.NEXT_PUBLIC_BASE_URL;
+console.log(ROOTAPI);
 
 export const fetchAPI = async <T>(
   endpoint: string,
